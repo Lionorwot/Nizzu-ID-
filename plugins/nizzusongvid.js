@@ -52,3 +52,55 @@ async (conn, mek, m, { from, quoted, q, reply }) => {
         reply(`⚠️ Error: ${e}`);
     }
 });
+
+// Video downloader command
+cmd({
+    pattern: "video",
+    desc: "Download video.",
+    category: "download",
+    filename: __filename
+},
+async (conn, mek, m, { from, quoted, q, reply }) => {
+    try {
+        if (!q) return reply("❌ Please provide a video name or YouTube URL!");
+
+        // Search for the video on YouTube
+        const search = await yts(q);
+        if (!search.videos.length) return reply("❌ No results found!");
+
+        const data = search.videos[0];
+        const url = data.url;
+
+        let desc = `
+🎬 *Nizzu ID - Video Downloader* 📽️
+
+🎥 *Title:* ${data.title}
+📝 *Description:* ${data.description}
+⏳ *Duration:* ${data.timestamp}
+📅 *Uploaded:* ${data.ago}
+👀 *Views:* ${data.views}
+
+🤖✨ *Nizzu ID WhatsApp Bot* ✨🤖
+        `;
+
+        // Send video details with thumbnail
+        await conn.sendMessage(from, { 
+            image: { url: data.thumbnail }, 
+            caption: desc 
+        }, { quoted: mek });
+
+        // Download video
+        let down = await fg.ytv(url);
+        let downloadUrl = down.dl_url;
+
+        // Send the video file
+        await conn.sendMessage(from, { 
+            video: { url: downloadUrl }, 
+            mimetype: "video/mp4" 
+        }, { quoted: mek });
+
+    } catch (e) {
+        console.log(e);
+        reply(`⚠️ Error: ${e}`);
+    }
+});
