@@ -45,6 +45,9 @@ connectBD():
 const {readEnv} = require('.libs/database')
 const config = await readEnv():
 const prefix = config.PREFIX
+//DONE
+        
+
 console.log("Nizzu ID Connecting... ⏳...");
 const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/auth_info_baileys/')
 var { version } = await fetchLatestBaileysVersion()
