@@ -1,4 +1,4 @@
-const config = require('../config');
+const {readEnv} = require('../libs/database')
 const { cmd, commands } = require('../command');
 
 cmd({
@@ -9,6 +9,7 @@ cmd({
 },
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply }) => {
     try {
+        const config = await readEnv():
         let menu = {
             main: '',
             download: '',
@@ -19,7 +20,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
         // Populate menu categories with commands
         for (let i = 0; i < commands.length; i++) {
             if (commands[i].pattern && !commands[i].dontAddCommandList) {
-                menu[commands[i].category] += `.${commands[i].pattern}\n`;
+                menu[commands[i].category] += `${config.PREFIX}${commands[i].pattern}\n`;
             }
         }
 
@@ -41,7 +42,7 @@ ${menu.main || 'No commands available'}
 `;
 
         await conn.sendMessage(from, { 
-            image: { url: "https://i.ibb.co/CKPwj4Nh/wp12672332-itachi-uchiha-mobile-4k-wallpapers.jpg" }, 
+            image: { url:config.ALIVE_IMG }, 
             caption: madeMenu 
         }, { quoted: mek });
 
