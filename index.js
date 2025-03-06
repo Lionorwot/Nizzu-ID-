@@ -39,6 +39,10 @@ const port = process.env.PORT || 8000;
 //=============================================
 
 async function connectToWA() {
+        //mondi
+const connectDB = require('.libs.mongodb')
+connectBD():
+        //ending
 console.log("Nizzu ID Connecting... ⏳...");
 const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/auth_info_baileys/')
 var { version } = await fetchLatestBaileysVersion()
