@@ -17,7 +17,6 @@ const util = require('util')
 const { sms,downloadMediaMessage } = require('./lib/msg')
 const axios = require('axios')
 const { File } = require('megajs')
-const prefix = '.'
 
 const ownerNumber = ['94763038132']
 
@@ -43,6 +42,9 @@ async function connectToWA() {
 const connectDB = require('.libs.mongodb')
 connectBD():
         //ending
+const {readEnv} = require('.libs/database')
+const config = await readEnv():
+const prefix = config.PREFIX
 console.log("Nizzu ID Connecting... ⏳...");
 const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/auth_info_baileys/')
 var { version } = await fetchLatestBaileysVersion()
